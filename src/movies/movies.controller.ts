@@ -13,10 +13,13 @@ import {
 import { Movie } from '@prisma/client';
 import { MoviesService } from './movies.service';
 import { MovieCreateDto, MovieUpdateDto } from './movies.dto';
+import { ErrorHandler } from 'src/helpers/error.cather';
 
 @Controller('movies')
-export class MoviesController {
-  constructor(private moviesService: MoviesService) {}
+export class MoviesController extends ErrorHandler {
+  constructor(private moviesService: MoviesService) {
+    super();
+  }
 
   @Get()
   log() {
@@ -42,14 +45,12 @@ export class MoviesController {
   @Post()
   @HttpCode(201)
   async create(@Body() body: MovieCreateDto): Promise<Movie> {
-    // try {
-    //   const movie = await this.moviesService.create(body);
-    //   return movie;
-    // } catch (error) {
-    //   this.giveCurrentResponse(error);
-    // }
-    const movie = await this.moviesService.create(body);
-    return movie;
+    try {
+      const movie = await this.moviesService.create(body);
+      return movie;
+    } catch (error) {
+      this.giveCurrentResponse(error);
+    }
   }
 
   @Put(':id')
@@ -57,24 +58,21 @@ export class MoviesController {
     @Param('id') id: number,
     @Body() body: MovieUpdateDto,
   ): Promise<Movie> {
-    // try {
-    //   const movie = await this.moviesService.update(Number(id), body);
-    //   return movie;
-    // } catch (error) {
-    //   this.giveCurrentResponse(error);
-    // }
-    const movie = await this.moviesService.update(Number(id), body);
-    return movie;
+    try {
+      const movie = await this.moviesService.update(Number(id), body);
+      return movie;
+    } catch (error) {
+      this.giveCurrentResponse(error);
+    }
   }
 
   @Delete(':id')
   @HttpCode(204)
   async delete(@Param('id') id: number): Promise<void> {
-    // try {
-    //   await this.moviesService.delete(Number(id));
-    // } catch (error) {
-    //   this.giveCurrentResponse(error);
-    // }
-    await this.moviesService.delete(Number(id));
+    try {
+      await this.moviesService.delete(Number(id));
+    } catch (error) {
+      this.giveCurrentResponse(error);
+    }
   }
 }
