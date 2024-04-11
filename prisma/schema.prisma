@@ -27,6 +27,7 @@ model User {
   id       Int    @id @default(autoincrement())
   email    String @unique @db.VarChar(50)
   password String @db.VarChar(100)
+  token    String @default("") @db.VarChar(200)
 
   movies FavoriteMovie[]
 

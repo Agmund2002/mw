@@ -22,13 +22,6 @@ export class MoviesController extends ErrorHandler {
   }
 
   @Get()
-  log() {
-    return {
-      message: 'Hello world',
-    };
-  }
-
-  @Get()
   getAll(): Promise<Movie[]> {
     return this.moviesService.getAll();
   }
