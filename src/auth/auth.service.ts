@@ -18,6 +18,10 @@ export class AuthService {
     return this.jwtService.sign({ id });
   }
 
+  validateToken(token: string) {
+    return this.jwtService.verify(token);
+  }
+
   changeToken(id: number, token: string) {
     return this.prisma.user.update({
       where: {

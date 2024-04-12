@@ -21,6 +21,7 @@ export class AppModule implements NestModule {
         { path: 'movies', method: RequestMethod.GET },
         { path: 'movies/:id', method: RequestMethod.GET },
         { path: 'movies/:id', method: RequestMethod.DELETE },
+        { path: 'auth/logout', method: RequestMethod.POST },
       )
       .forRoutes('*');
   }

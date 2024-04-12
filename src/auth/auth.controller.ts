@@ -5,12 +5,14 @@ import {
   HttpException,
   HttpStatus,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ErrorHandler } from 'src/helpers/error.cather';
 import { UsersService } from 'src/users/users.service';
 import { UserCreateDto } from 'src/users/users.dto';
 import { CurrentUser } from 'src/decorators/user.decorator';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @Controller('auth')
 export class AuthController extends ErrorHandler {
@@ -54,6 +56,7 @@ export class AuthController extends ErrorHandler {
   }
 
   @Post('logout')
+  @UseGuards(AuthGuard)
   @HttpCode(204)
   logout(@CurrentUser('id') id: number) {
     this.authService.changeToken(id, '');
